@@ -12,4 +12,4 @@ RUN yarn install
 COPY . /work
 RUN yarn build
 
-ENTRYPOINT [ "serve", "-s", "build", "-p", "5000" ]
+ENTRYPOINT [ "serve", "-s", "build", "-p", "8080" ]

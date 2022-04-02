@@ -6,7 +6,7 @@ COPY go.mod .
 COPY go.sum .
 RUN go mod download
 
-RUN *.go .
+COPY *.go .
 RUN \
     GOOS=linux \
     go build -o ./app
