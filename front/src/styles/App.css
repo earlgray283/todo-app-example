@@ -1,0 +1,25 @@
+table {
+  border-collapse: collapse;
+  border: 1px solid rgb(200, 200, 200);
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+}
+
+thead {
+  font-family: sans-serif;
+}
+
+td,
+th {
+  border: 1px solid rgb(190, 190, 190);
+  padding: 5px 10px;
+}
+
+td {
+  text-align: center;
+}
+
+div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

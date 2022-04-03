@@ -1,24 +1,89 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import {
+  fetchAllTodosJSON,
+  fetchTodoJSON,
+  fetchTodoText,
+  isAxiosError,
+} from './apis/fetch';
+import { Todo, TodoRespError } from './apis/types';
+import { InputIdButton } from './components/button';
+import './styles/App.css';
 
 function App() {
+  const [todos, setTodos] = useState<Todo[]>([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className='App'>
+      <div>
+        <InputIdButton
+          label='Fetch todo(application/json)'
+          onClick={async (id: number) => {
+            try {
+              const todo = await fetchTodoJSON(id);
+              setTodos([...todos, todo]);
+            } catch (e: unknown) {
+              if (isAxiosError<TodoRespError>(e) && e.response) {
+                console.error(e.message);
+              } else {
+                console.error(e);
+              }
+            }
+          }}
+        />
+        <InputIdButton
+          label='Fetch todo(plain/text)'
+          onClick={async (id: number) => {
+            try {
+              const todo = await fetchTodoText(id);
+              setTodos([...todos, todo]);
+            } catch (e: unknown) {
+              if (isAxiosError<TodoRespError>(e) && e.response) {
+                console.error(e.message);
+              } else {
+                console.error(e);
+              }
+            }
+          }}
+        />
+
+        <button
+          onClick={async () => {
+            try {
+              const todos = await fetchAllTodosJSON();
+              setTodos(todos);
+            } catch (e: unknown) {
+              if (isAxiosError<TodoRespError>(e) && e.response) {
+                console.error(e.message);
+              } else {
+                console.error(e);
+              }
+            }
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          Fetch all todos(plain/text)
+        </button>
+      </div>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {todos.map((todo, i) => (
+              <tr key={i}>
+                <th>{todo.id}</th>
+                <th>{todo.detail.title}</th>
+                <th>{todo.detail.description}</th>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
