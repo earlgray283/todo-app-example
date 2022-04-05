@@ -2,7 +2,7 @@
   "name": "front",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://earlgray283.github.io/react-docker-example/",
+  "proxy": "http://localhost:8081",
   "dependencies": {
     "axios": "^0.26.1",
     "react": "^18.0.0",

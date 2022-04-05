@@ -12,5 +12,14 @@ services:
     build:
       context: back
       dockerfile: Dockerfile
+    restart: always
     ports:
-      - "8081:8000"
+      - "8081:8080"
+
+  postgres:
+    image: postgres:14
+    restart: always
+    environment:
+      - POSTGRES_DB=todo
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
