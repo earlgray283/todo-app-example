@@ -40,7 +40,7 @@ func (c *Controller) FetchAllTodos() ([]Todo, error) {
 
 func (c *Controller) FetchTodoByID(id int64) (*Todo, error) {
 	todo := &Todo{}
-	if err := c.db.Where("id = ?", id).Find(todo).Error; err != nil {
+	if err := c.db.Where("id = ?", id).First(todo).Error; err != nil {
 		return nil, err
 	}
 	return todo, nil
