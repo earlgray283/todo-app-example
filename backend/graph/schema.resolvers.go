@@ -5,7 +5,7 @@ package graph
 
 import (
 	"context"
-	"fmt"
+	"strconv"
 
 	"github.com/earlgray283/todo-graphql-firestore/graph/generated"
 	"github.com/earlgray283/todo-graphql-firestore/model"
@@ -25,7 +25,15 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.c.GetAllTodos(ctx)
+}
+
+func (r *queryResolver) Todo(ctx context.Context, idStr string) (*model.Todo, error) {
+	id, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	return r.c.GetTodoByID(ctx, id)
 }
 
 // Mutation returns generated.MutationResolver implementation.
