@@ -16,6 +16,7 @@ func (ctrler *Controller) RegistTodo(ctx context.Context, todo *model.Todo) erro
 	if err != nil {
 		return err
 	}
+	todo.ID = new(string)
 	*todo.ID = fmt.Sprint(key.ID)
 	return nil
 }
