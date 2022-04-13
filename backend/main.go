@@ -11,6 +11,8 @@ import (
 	"github.com/earlgray283/todo-graphql-firestore/firestore"
 	"github.com/earlgray283/todo-graphql-firestore/graph"
 	"github.com/earlgray283/todo-graphql-firestore/graph/generated"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 	"google.golang.org/api/option"
 )
 
@@ -39,9 +41,18 @@ func main() {
 		),
 	)
 
-	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", srv)
+	r := gin.Default()
+	r.Use(cors.Default())
+	r.Handle(http.MethodGet, "/", func(ctx *gin.Context) {
+		h := playground.Handler("GraphQL playground", "/query")
+		h.ServeHTTP(ctx.Writer, ctx.Request)
+	})
+	r.Handle(http.MethodPost, "/query", func(ctx *gin.Context) {
+		srv.ServeHTTP(ctx.Writer, ctx.Request)
+	})
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	if err := r.Run(":" + port); err != nil {
+		log.Fatal(err)
+	}
 }
