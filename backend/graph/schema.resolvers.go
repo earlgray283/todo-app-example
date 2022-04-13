@@ -28,12 +28,12 @@ func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	return r.c.GetAllTodos(ctx)
 }
 
-func (r *queryResolver) Todo(ctx context.Context, idStr string) (*model.Todo, error) {
-	id, err := strconv.ParseInt(idStr, 10, 64)
+func (r *queryResolver) Todo(ctx context.Context, id string) (*model.Todo, error) {
+	id2, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
 		return nil, err
 	}
-	return r.c.GetTodoByID(ctx, id)
+	return r.c.GetTodoByID(ctx, id2)
 }
 
 // Mutation returns generated.MutationResolver implementation.
