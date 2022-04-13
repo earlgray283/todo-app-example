@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { NewTodo, Todo } from './../apis/models/todo';
 
 const CREATE_TODO = gql`
-  mutation createTodo($newTodo: NewTodo) {
+  mutation createTodo($newTodo: NewTodo!) {
     createTodo(input: $newTodo) {
       title
     }
