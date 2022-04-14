@@ -1,6 +1,7 @@
-import { gql, useLazyQuery, useQuery } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { Todo } from '../apis/models/todo';
+import './common.css';
 
 const FETCH_ALL_TODOS = gql`
   query fetchAllTodos {
@@ -27,17 +28,20 @@ const FETCH_TODO_BY_ID = gql`
 `;
 
 const TodoViewer = (): JSX.Element => {
-  const [todos, setTodos] = useState<Todo[]>([]);
   const [lastUpdatedAt, setLastUpdatedAt] = useState(new Date());
-  const [fetchAllTodos, data] = useLazyQuery<Todo[]>(FETCH_ALL_TODOS);
+
+  // useMutation() みたいに [実行関数, 取得した内容] で受け取りたい時は useLazyQuery を使う
+  // ここで、useLazyQuery の型引数は必ず interface 型にしないといけない(<Todo[]> はうまくいかない)
+  const [fetchAllTodos, { data }] = useLazyQuery<{ todos: Todo[] }>(
+    FETCH_ALL_TODOS
+  );
+
   useEffect(() => {
-    const fetchAndSetTodos = () => {
-      const newTodos = fetchAllTodos();
-      //setTodos([...newTodos]);
+    fetchAllTodos();
+    const interval = setInterval(() => {
+      fetchAllTodos();
       setLastUpdatedAt(new Date());
-    };
-    fetchAndSetTodos();
-    const interval = setInterval(fetchAndSetTodos, 5_000);
+    }, 1_000);
     return () => clearInterval(interval);
   }, []);
 
@@ -58,14 +62,15 @@ const TodoViewer = (): JSX.Element => {
           </tr>
         </thead>
         <tbody>
-          {todos.map((newTodo, i) => (
-            <tr key={newTodo.id ?? i}>
-              <td>{newTodo.title}</td>
-              <td>{newTodo.description ?? ''}</td>
-              <td>{newTodo.dueDate.toString()}</td>
-              <td>{newTodo.createdAt.toString()}</td>
-            </tr>
-          ))}
+          {data &&
+            data.todos.map((newTodo, i) => (
+              <tr key={newTodo.id ?? i}>
+                <td>{newTodo.title}</td>
+                <td>{newTodo.description ?? ''}</td>
+                <td>{newTodo.dueDate.toString()}</td>
+                <td>{newTodo.createdAt.toString()}</td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </>
