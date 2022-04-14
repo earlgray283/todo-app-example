@@ -5,6 +5,7 @@ go 1.18
 require (
 	cloud.google.com/go/datastore v1.6.0
 	github.com/99designs/gqlgen v0.17.2
+	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.7.7
 	github.com/vektah/gqlparser/v2 v2.4.1
 	google.golang.org/api v0.74.0
@@ -15,7 +16,6 @@ require (
 	cloud.google.com/go/compute v1.5.0 // indirect
 	github.com/agnivade/levenshtein v1.1.1 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.1 // indirect
-	github.com/gin-contrib/cors v1.3.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
