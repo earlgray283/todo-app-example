@@ -5,7 +5,11 @@ import { NewTodo, Todo } from './../apis/models/todo';
 const CREATE_TODO = gql`
   mutation createTodo($newTodo: NewTodo!) {
     createTodo(input: $newTodo) {
+      id
       title
+      description
+      dueDate
+      createdAt
     }
   }
 `;
@@ -48,7 +52,7 @@ const TodoForm = (): JSX.Element => {
           }}
         >
           error:
-          {error?.message}
+          {error?.message ?? 'hoge'}
         </div>
       )}
       {data && (
@@ -59,8 +63,11 @@ const TodoForm = (): JSX.Element => {
             borderRadius: '0.25rem',
           }}
         >
-          data:
-          {data.createTodo}
+          request "postTodo" was successful!
+          <p>id: {data.createTodo.id ?? 'id is null'}</p>
+          <p>title: {data.createTodo.title}</p>
+          <p>{data.createTodo.description ?? ''}</p>
+          <p>{data.createTodo.createdAt}</p>
         </div>
       )}
       <p>
