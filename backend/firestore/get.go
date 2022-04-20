@@ -15,8 +15,7 @@ func (ctrler *Controller) GetAllTodos(ctx context.Context) ([]*model.Todo, error
 		return nil, err
 	}
 	for i := range keys {
-		todos[i].ID = new(string)
-		*todos[i].ID = fmt.Sprint(keys[i].ID)
+		todos[i].ID = fmt.Sprint(keys[i].ID)
 	}
 	return todos, nil
 }
@@ -26,7 +25,6 @@ func (ctrler *Controller) GetTodoByID(ctx context.Context, id int64) (*model.Tod
 	if err := ctrler.c.Get(ctx, datastore.IDKey("todos", id, nil), &todo); err != nil {
 		return nil, err
 	}
-	todo.ID = new(string)
-	*todo.ID = fmt.Sprint(id)
+	todo.ID = fmt.Sprint(id)
 	return &todo, nil
 }
