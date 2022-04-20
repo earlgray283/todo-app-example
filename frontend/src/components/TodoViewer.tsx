@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { Todo } from '../apis/models/todo';
 import './common.css';
 
+const INTERVAL_FETCH_TODO = 30_000; // 30s
+
 const FETCH_ALL_TODOS = gql`
   query fetchAllTodos {
     todos {
@@ -41,7 +43,7 @@ const TodoViewer = (): JSX.Element => {
     const interval = setInterval(() => {
       fetchAllTodos();
       setLastUpdatedAt(new Date());
-    }, 1_000);
+    }, INTERVAL_FETCH_TODO);
     return () => clearInterval(interval);
   }, []);
 
