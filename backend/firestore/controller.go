@@ -22,4 +22,3 @@ func NewController(ctx context.Context, projectID string, opts ...option.ClientO
 func (ctrler *Controller) Close() error {
 	return ctrler.c.Close()
 }
-

@@ -13,27 +13,16 @@ import (
 	"github.com/earlgray283/todo-graphql-firestore/graph/generated"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
-	"google.golang.org/api/option"
 )
 
 var (
+	//TODO: 自動で取得するように
 	ProjectID = "learning-346605"
 )
 
 const (
-	defaultPort     = "8080"
-	CredentialsName = "credentials.json"
+	defaultPort = "8080"
 )
-
-func init() {
-	if os.Getenv("TODO_PROJECT_ID") == "" {
-		if err := godotenv.Load(".env"); err != nil {
-			log.Fatal(err)
-		}
-	}
-	ProjectID = os.Getenv("TODO_PROJECT_ID")
-}
 
 func main() {
 	ctx := context.Background()
@@ -41,7 +30,8 @@ func main() {
 	if port == "" {
 		port = defaultPort
 	}
-	controller, err := firestore.NewController(ctx, ProjectID, option.WithCredentialsFile(CredentialsName))
+	//controller, err := firestore.NewController(ctx, ProjectID, option.WithCredentialsFile(CredentialsName))
+	controller, err := firestore.NewController(ctx, ProjectID)
 	if err != nil {
 		log.Fatal(err)
 	}
