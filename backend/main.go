@@ -13,14 +13,27 @@ import (
 	"github.com/earlgray283/todo-graphql-firestore/graph/generated"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"google.golang.org/api/option"
+)
+
+var (
+	ProjectID = "learning-346605"
 )
 
 const (
 	defaultPort     = "8080"
-	ProjectID       = "learning-346605"
 	CredentialsName = "credentials.json"
 )
+
+func init() {
+	if os.Getenv("TODO_PROJECT_ID") == "" {
+		if err := godotenv.Load(".env"); err != nil {
+			log.Fatal(err)
+		}
+	}
+	ProjectID = os.Getenv("TODO_PROJECT_ID")
+}
 
 func main() {
 	ctx := context.Background()
