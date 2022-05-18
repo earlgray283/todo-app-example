@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"cloud.google.com/go/datastore"
+	"github.com/pkg/errors"
 	"google.golang.org/api/option"
 )
 
@@ -14,7 +15,7 @@ type Controller struct {
 func NewController(ctx context.Context, projectID string, opts ...option.ClientOption) (*Controller, error) {
 	c, err := datastore.NewClient(ctx, projectID, opts...)
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
 	}
 	return &Controller{c}, nil
 }

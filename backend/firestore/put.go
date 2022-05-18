@@ -7,6 +7,7 @@ import (
 
 	"cloud.google.com/go/datastore"
 	"github.com/earlgray283/todo-graphql-firestore/model"
+	"github.com/pkg/errors"
 )
 
 func (ctrler *Controller) RegistTodo(ctx context.Context, todo *model.Todo) error {
@@ -14,7 +15,7 @@ func (ctrler *Controller) RegistTodo(ctx context.Context, todo *model.Todo) erro
 	todo.CreatedAt = time.Now()
 	key, err := ctrler.c.Put(ctx, imcompleteKey, todo)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 	todo.ID = fmt.Sprint(key.ID)
 	return nil
