@@ -13,16 +13,18 @@ import (
 	"github.com/earlgray283/todo-graphql-firestore/graph/generated"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-)
-
-var (
-	//TODO: 自動で取得するように
-	ProjectID = "learning-346605"
+	"github.com/joho/godotenv"
 )
 
 const (
 	defaultPort = "8080"
 )
+
+func init() {
+	if err := godotenv.Load(".env"); err != nil {
+		log.Println(".env file was not found. Use os environment values.")
+	}
+}
 
 func main() {
 	ctx := context.Background()
@@ -31,7 +33,7 @@ func main() {
 		port = defaultPort
 	}
 	//controller, err := firestore.NewController(ctx, ProjectID, option.WithCredentialsFile(CredentialsName))
-	controller, err := firestore.NewController(ctx, ProjectID)
+	controller, err := firestore.NewController(ctx, os.Getenv("TODO_PROJECT_ID"))
 	if err != nil {
 		log.Fatal(err)
 	}
