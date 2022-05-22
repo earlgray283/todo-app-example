@@ -32,8 +32,7 @@ func main() {
 	if port == "" {
 		port = defaultPort
 	}
-	log.Println(os.Getenv("TODO_PROJECT_ID"))
-	//controller, err := firestore.NewController(ctx, ProjectID, option.WithCredentialsFile(CredentialsName))
+
 	controller, err := firestore.NewController(ctx, os.Getenv("TODO_PROJECT_ID"))
 	if err != nil {
 		log.Fatal(err)
