@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react';
 import { Todo } from '../apis/models/todo';
 import './common.css';
 
-const INTERVAL_FETCH_TODO = 30_000; // 30s
-
 const FETCH_ALL_TODOS = gql`
   query fetchAllTodos {
     todos {
@@ -40,11 +38,7 @@ const TodoViewer = (): JSX.Element => {
 
   useEffect(() => {
     fetchAllTodos();
-    const interval = setInterval(() => {
-      fetchAllTodos();
-      setLastUpdatedAt(new Date());
-    }, INTERVAL_FETCH_TODO);
-    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -75,6 +69,14 @@ const TodoViewer = (): JSX.Element => {
             ))}
         </tbody>
       </table>
+      <button
+        onClick={() => {
+          fetchAllTodos();
+          setLastUpdatedAt(new Date());
+        }}
+      >
+        Update
+      </button>
     </>
   );
 };
