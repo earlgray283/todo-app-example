@@ -8,6 +8,8 @@ import (
 	"google.golang.org/api/option"
 )
 
+const DateFormat = "20060102150405"
+
 type Controller struct {
 	c *datastore.Client
 }
@@ -19,6 +21,7 @@ func NewController(ctx context.Context, projectID string, opts ...option.ClientO
 	}
 	return &Controller{c}, nil
 }
+
 
 func (ctrler *Controller) Close() error {
 	return ctrler.c.Close()

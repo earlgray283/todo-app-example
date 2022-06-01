@@ -13,7 +13,7 @@ type NewTodo struct {
 }
 
 type Todo struct {
-	ID          string     `json:"id"`
+	UserID      string     `json:"userId"`
 	Title       string     `json:"title"`
 	Description *string    `json:"description"`
 	DueDate     time.Time  `json:"dueDate"`
