@@ -67,7 +67,7 @@ const TodoForm = (): JSX.Element => {
           <p>id: {data.createTodo.id ?? 'id is null'}</p>
           <p>title: {data.createTodo.title}</p>
           <p>{data.createTodo.description ?? ''}</p>
-          <p>{data.createTodo.createdAt}</p>
+          <p>{data.createTodo.createdAt.toDateString()}</p>
         </div>
       )}
       <p>
