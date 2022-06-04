@@ -6,22 +6,11 @@ import './common.css';
 const FETCH_ALL_TODOS = gql`
   query fetchAllTodos {
     todos {
-      id
+      userId
       title
       description
       dueDate
-      createdAt
-    }
-  }
-`;
-
-const FETCH_TODO_BY_ID = gql`
-  query fetchTodoById($id: ID) {
-    todo(id: $id) {
-      id
-      title
-      description
-      dueDate
+      done
       createdAt
     }
   }
@@ -60,7 +49,7 @@ const TodoViewer = (): JSX.Element => {
         <tbody>
           {data &&
             data.todos.map((newTodo, i) => (
-              <tr key={newTodo.id ?? i}>
+              <tr key={newTodo.userId ?? i}>
                 <td>{newTodo.title}</td>
                 <td>{newTodo.description ?? ''}</td>
                 <td>{newTodo.dueDate.toString()}</td>

@@ -5,7 +5,7 @@ import { NewTodo, Todo } from './../apis/models/todo';
 const CREATE_TODO = gql`
   mutation createTodo($newTodo: NewTodo!) {
     createTodo(input: $newTodo) {
-      id
+      userId
       title
       description
       dueDate
@@ -64,7 +64,7 @@ const TodoForm = (): JSX.Element => {
           }}
         >
           request "postTodo" was successful!
-          <p>id: {data.createTodo.id ?? 'id is null'}</p>
+          <p>id: {data.createTodo.userId ?? 'userId is null'}</p>
           <p>title: {data.createTodo.title}</p>
           <p>{data.createTodo.description ?? ''}</p>
           <p>{data.createTodo.createdAt.toDateString()}</p>
