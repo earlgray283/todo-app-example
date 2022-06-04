@@ -39,7 +39,9 @@ const TodoForm = (): JSX.Element => {
       onSubmit={(e) => {
         e.preventDefault();
         createTodo({
-          variables: { newTodo: { title, description, dueDate } },
+          variables: {
+            newTodo: { title, description, dueDate: dueDate.toISOString() },
+          },
         });
       }}
     >
@@ -67,7 +69,7 @@ const TodoForm = (): JSX.Element => {
           <p>id: {data.createTodo.userId ?? 'userId is null'}</p>
           <p>title: {data.createTodo.title}</p>
           <p>{data.createTodo.description ?? ''}</p>
-          <p>{data.createTodo.createdAt.toDateString()}</p>
+          <p>{data.createTodo.createdAt}</p>
         </div>
       )}
       <p>

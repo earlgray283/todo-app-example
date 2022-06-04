@@ -2,14 +2,14 @@ export interface Todo {
   userId?: string;
   title: string;
   description?: string;
-  dueDate: Date;
+  dueDate: string;
   done?: boolean;
-  createdAt: Date;
-  updatedAt?: Date;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export interface NewTodo {
   title: string;
   description?: string;
-  dueDate: Date;
+  dueDate: string;
 }
