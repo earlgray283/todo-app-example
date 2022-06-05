@@ -5,13 +5,15 @@ package graph
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 import (
+	firebase "firebase.google.com/go/v4"
 	"github.com/earlgray283/todo-graphql-firestore/firestore"
 )
 
 type Resolver struct {
-	c *firestore.Controller
+	fc *firestore.Controller
+	fb *firebase.App
 }
 
-func NewResolver(controller *firestore.Controller) *Resolver {
-	return &Resolver{c: controller}
+func NewResolver(fc *firestore.Controller, fb *firebase.App) *Resolver {
+	return &Resolver{fc, fb}
 }

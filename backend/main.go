@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	firebase "firebase.google.com/go/v4"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/earlgray283/todo-graphql-firestore/firestore"
@@ -14,6 +15,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"google.golang.org/api/option"
 )
 
 const (
@@ -38,16 +40,24 @@ func main() {
 		log.Fatal(err)
 	}
 
+	client, err := firebase.NewApp(context.Background(), nil, option.WithCredentialsFile("firebase_credentials.json"))
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	srv := handler.NewDefaultServer(
 		generated.NewExecutableSchema(
 			generated.Config{
-				Resolvers: graph.NewResolver(controller),
+				Resolvers: graph.NewResolver(controller, client),
 			},
 		),
 	)
 
 	r := gin.Default()
-	r.Use(cors.Default())
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowOrigins = []string{"http://localhost:3000", "http://127.0.0.1:3000", os.Getenv("FRONT_URL")}
+	corsConfig.AllowCredentials = true
+	r.Use(cors.New(corsConfig), graph.MiddlewareSessionCookie(), graph.MiddlewareAuth(client))
 	r.Handle(http.MethodGet, "/", func(ctx *gin.Context) {
 		h := playground.Handler("GraphQL playground", "/query")
 		h.ServeHTTP(ctx.Writer, ctx.Request)

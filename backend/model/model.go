@@ -12,6 +12,10 @@ type NewTodo struct {
 	DueDate     time.Time `json:"dueDate"`
 }
 
+type SessionToken struct {
+	Token string `json:"token"`
+}
+
 type Todo struct {
 	UserID      string     `json:"userId"`
 	Title       string     `json:"title"`

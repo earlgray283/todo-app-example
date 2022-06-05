@@ -13,7 +13,7 @@ import (
 )
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	todos, err := r.c.GetAllTodos(ctx)
+	todos, err := r.fc.GetAllTodos(ctx)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -27,7 +27,7 @@ func (r *queryResolver) Todo(ctx context.Context, id string) (*model.Todo, error
 		log.Println(err)
 		return nil, err
 	}
-	todo, err := r.c.GetTodoByID(ctx, id2)
+	todo, err := r.fc.GetTodoByID(ctx, id2)
 	if err != nil {
 		log.Println(err)
 		return nil, err
