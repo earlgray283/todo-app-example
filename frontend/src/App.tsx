@@ -1,8 +1,11 @@
-import { getAuth, User } from 'firebase/auth';
+import { getAuth, signOut, User } from 'firebase/auth';
 import { createContext, useEffect, useState } from 'react';
 import SigninPage from './pages/Signin';
 import './apis/firebase';
 import TodoHome from './pages/TodoHome';
+import { useMutation } from '@apollo/client';
+import { SESSION_LOGIN } from './apis/auth';
+import { SessionToken } from './apis/models/auth';
 
 interface UserContextType {
   user: User | null;
@@ -15,12 +18,24 @@ const UserContext = createContext<UserContextType>({
 });
 
 function App() {
-  const [user, setUser] = useState<User | null>();
+  const [user, setUser] = useState<User | null | undefined>();
   const auth = getAuth();
+  const [sessionLogin] = useMutation<{
+    sessionLogin: SessionToken;
+    token: string;
+  }>(SESSION_LOGIN);
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      setUser(user);
+    auth.onAuthStateChanged(async (user) => {
+      try {
+        if (user) {
+          const idToken = await user.getIdToken();
+          await sessionLogin({ variables: { token: idToken } });
+        }
+        setUser(user);
+      } catch (e) {
+        console.log(e);
+      }
     });
   }, []);
 
@@ -33,8 +48,18 @@ function App() {
     >
       <div className='App'>
         {user ? (
-          <TodoHome />
-        ) : user == null ? (
+          <div>
+            <button
+              onClick={async () => {
+                await signOut(auth);
+                alert('signout');
+              }}
+            >
+              Sign out
+            </button>
+            <TodoHome />
+          </div>
+        ) : user === null ? (
           <SigninPage />
         ) : (
           <div>loading...</div>

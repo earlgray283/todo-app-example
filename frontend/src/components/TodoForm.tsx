@@ -1,18 +1,7 @@
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
+import { CREATE_TODO } from '../apis/todo';
 import { NewTodo, Todo } from './../apis/models/todo';
-
-const CREATE_TODO = gql`
-  mutation createTodo($newTodo: NewTodo!) {
-    createTodo(input: $newTodo) {
-      userId
-      title
-      description
-      dueDate
-      createdAt
-    }
-  }
-`;
 
 // date -> "0170-07-31T22:00:00"
 function toDatetimeLocalFormat(date: Date): string {

@@ -1,20 +1,8 @@
-import { gql, useLazyQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { Todo } from '../apis/models/todo';
+import { FETCH_ALL_TODOS } from '../apis/todo';
 import './common.css';
-
-const FETCH_ALL_TODOS = gql`
-  query fetchAllTodos {
-    todos {
-      userId
-      title
-      description
-      dueDate
-      done
-      createdAt
-    }
-  }
-`;
 
 const TodoViewer = (): JSX.Element => {
   const [lastUpdatedAt, setLastUpdatedAt] = useState(new Date());
