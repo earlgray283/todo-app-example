@@ -55,7 +55,7 @@ func main() {
 
 	r := gin.Default()
 	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"http://localhost:3000", "http://127.0.0.1:3000", os.Getenv("FRONT_URL")}
+	corsConfig.AllowOrigins = []string{"http://localhost:3000", "http://127.0.0.1:3000", os.Getenv("TODO_FRONTEND_URL")}
 	corsConfig.AllowCredentials = true
 	r.Use(cors.New(corsConfig), graph.MiddlewareSessionCookie(), graph.MiddlewareAuth(client))
 	r.Handle(http.MethodGet, "/", func(ctx *gin.Context) {
