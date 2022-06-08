@@ -1,7 +1,7 @@
 import { getAuth, signOut, User } from 'firebase/auth';
 import { createContext, useEffect, useState } from 'react';
 import SigninPage from './pages/Signin';
-import './apis/firebase';
+import './lib/firebase';
 import TodoHome from './pages/TodoHome';
 import { useMutation } from '@apollo/client';
 import { SESSION_LOGIN } from './apis/auth';
