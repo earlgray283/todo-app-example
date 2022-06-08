@@ -18,7 +18,7 @@ func MiddlewareSessionCookie() gin.HandlerFunc {
 
 func MiddlewareAuth(fb *firebase.App) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		idToken, err := ctx.Cookie("session")
+		session, err := ctx.Cookie("session")
 		if err != nil {
 			ctx.AbortWithStatus(http.StatusUnauthorized)
 			return
@@ -28,7 +28,7 @@ func MiddlewareAuth(fb *firebase.App) gin.HandlerFunc {
 			ctx.AbortWithStatus(http.StatusInternalServerError)
 			return
 		}
-		token, err := client.VerifyIDToken(ctx, idToken)
+		token, err := client.VerifySessionCookie(ctx, session)
 		if err != nil {
 			ctx.AbortWithStatus(http.StatusUnauthorized)
 			return
