@@ -10,8 +10,8 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/earlgray283/todo-graphql-firestore/firestore"
-	"github.com/earlgray283/todo-graphql-firestore/graph"
 	"github.com/earlgray283/todo-graphql-firestore/graph/generated"
+	"github.com/earlgray283/todo-graphql-firestore/graph/resolver"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -52,7 +52,7 @@ func main() {
 	srv := handler.NewDefaultServer(
 		generated.NewExecutableSchema(
 			generated.Config{
-				Resolvers: graph.NewResolver(controller, client),
+				Resolvers: resolver.NewResolver(controller, client),
 			},
 		),
 	)
@@ -61,7 +61,7 @@ func main() {
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowOrigins = []string{"http://localhost:3000", "http://127.0.0.1:3000", os.Getenv("TODO_FRONTEND_URL")}
 	corsConfig.AllowCredentials = true
-	r.Use(cors.New(corsConfig), graph.MiddlewareSessionCookie(), graph.MiddlewareAuth(client))
+	r.Use(cors.New(corsConfig), resolver.MiddlewareSessionCookie(), resolver.MiddlewareAuth(client))
 	r.Handle(http.MethodGet, "/", func(ctx *gin.Context) {
 		h := playground.Handler("GraphQL playground", "/query")
 		h.ServeHTTP(ctx.Writer, ctx.Request)

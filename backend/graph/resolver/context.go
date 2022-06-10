@@ -1,4 +1,4 @@
-package graph
+package resolver
 
 type ctxKey int
 

@@ -1,13 +1,13 @@
-package graph
-
-// This file will not be regenerated automatically.
-//
-// It serves as dependency injection for your app, add any dependencies you require here.
+package resolver
 
 import (
 	firebase "firebase.google.com/go/v4"
 	"github.com/earlgray283/todo-graphql-firestore/firestore"
 )
+
+// This file will not be regenerated automatically.
+//
+// It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
 	fc *firestore.Controller

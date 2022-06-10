@@ -262,26 +262,26 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "../auth.graphql", Input: `type SessionToken {
+	{Name: "../schemas/auth.graphql", Input: `type SessionToken {
     token: String!
 }
 `, BuiltIn: false},
-	{Name: "../directive.graphql", Input: `directive @goField(forceResolver: Boolean, name: String) on INPUT_FIELD_DEFINITION
+	{Name: "../schemas/directive.graphql", Input: `directive @goField(forceResolver: Boolean, name: String) on INPUT_FIELD_DEFINITION
     | FIELD_DEFINITION
 `, BuiltIn: false},
-	{Name: "../mutation.graphql", Input: `type Mutation {
+	{Name: "../schemas/mutation.graphql", Input: `type Mutation {
   createTodo(input: NewTodo!): Todo!
   sessionLogin(token: String!): SessionToken!
 }
 `, BuiltIn: false},
-	{Name: "../query.graphql", Input: `type Query {
+	{Name: "../schemas/query.graphql", Input: `type Query {
   todos: [Todo!]!
   todo(id: ID!): Todo!
 }
 `, BuiltIn: false},
-	{Name: "../scalar.graphql", Input: `scalar Time
+	{Name: "../schemas/scalar.graphql", Input: `scalar Time
 `, BuiltIn: false},
-	{Name: "../todo.graphql", Input: `input NewTodo {
+	{Name: "../schemas/todo.graphql", Input: `input NewTodo {
   title: String!
   description: String
   dueDate: Time!
