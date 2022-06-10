@@ -5,7 +5,7 @@ input NewTodo {
 }
 
 type Todo {
-  userId: ID! 
+  userId: ID! @goField(forceResolver: true)
   title: String!
   description: String
   dueDate: Time!

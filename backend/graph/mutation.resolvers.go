@@ -17,7 +17,7 @@ import (
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	userId, _ := ctx.Value(userKey).(*auth.UserRecord)
-	if userId != nil {
+	if userId == nil {
 		return nil, errors.New("userId was nil")
 	}
 	newTodo := &model.Todo{
