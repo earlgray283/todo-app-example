@@ -1,8 +1,5 @@
 steps:
   - name: 'gcr.io/kaniko-project/executor:latest'
-    env:
-      - 'TODO_PROJECT_ID=$_TODO_PROJECT_ID'
-      - 'TODO_FRONTEND_URL$_TODO_FRONTEND_URL'
     args:
       - --destination=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
       - --cache=true
