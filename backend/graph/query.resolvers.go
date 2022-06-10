@@ -5,15 +5,21 @@ package graph
 
 import (
 	"context"
+	"errors"
 	"log"
 	"strconv"
 
+	"firebase.google.com/go/v4/auth"
 	"github.com/earlgray283/todo-graphql-firestore/graph/generated"
 	"github.com/earlgray283/todo-graphql-firestore/model"
 )
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	todos, err := r.fc.GetAllTodos(ctx)
+	user, _ := ctx.Value(userKey).(*auth.UserRecord)
+	if user == nil {
+		return nil, errors.New("user must not be nil")
+	}
+	todos, err := r.fc.GetAllTodosByUserID(ctx, user.UID)
 	if err != nil {
 		log.Println(err)
 		return nil, err

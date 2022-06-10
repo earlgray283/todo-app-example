@@ -12,9 +12,10 @@ import (
 
 const KindTodo = "todos"
 
-func (ctrler *Controller) GetAllTodos(ctx context.Context) ([]*model.Todo, error) {
+func (ctrler *Controller) GetAllTodosByUserID(ctx context.Context, userID string) ([]*model.Todo, error) {
 	var todos []*model.Todo
-	_, err := ctrler.c.GetAll(ctx, datastore.NewQuery(KindTodo), &todos)
+	q := datastore.NewQuery(KindTodo).Filter("UserID =", userID)
+	_, err := ctrler.c.GetAll(ctx, q, &todos)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}

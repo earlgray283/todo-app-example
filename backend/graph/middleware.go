@@ -17,22 +17,24 @@ func MiddlewareSessionCookie() gin.HandlerFunc {
 
 func MiddlewareAuth(fb *firebase.App) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		defer ctx.Next()
-
 		session, err := ctx.Cookie("session")
 		if err != nil {
+			ctx.Next()
 			return
 		}
 		client, err := fb.Auth(ctx)
 		if err != nil {
+			ctx.Next()
 			return
 		}
 		token, err := client.VerifySessionCookie(ctx, session)
 		if err != nil {
+			ctx.Next()
 			return
 		}
 		user, _ := client.GetUser(ctx, token.UID)
 		newCtx := context.WithValue(ctx.Request.Context(), userKey, user)
 		ctx.Request = ctx.Request.WithContext(newCtx)
+		ctx.Next()
 	}
 }

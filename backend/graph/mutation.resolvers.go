@@ -10,18 +10,18 @@ import (
 	"net/http"
 	"time"
 
-	"firebase.google.com/go/auth"
+	"firebase.google.com/go/v4/auth"
 	"github.com/earlgray283/todo-graphql-firestore/graph/generated"
 	"github.com/earlgray283/todo-graphql-firestore/model"
 )
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	userId, _ := ctx.Value(userKey).(*auth.UserRecord)
-	if userId == nil {
-		return nil, errors.New("userId was nil")
+	user, _ := ctx.Value(userKey).(*auth.UserRecord)
+	if user == nil {
+		return nil, errors.New("user must not be nil")
 	}
 	newTodo := &model.Todo{
-		UserID:      userId.UID,
+		UserID:      user.UID,
 		Title:       input.Title,
 		Description: input.Description,
 		DueDate:     input.DueDate,
