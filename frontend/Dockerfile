@@ -27,5 +27,5 @@ RUN yarn install
 COPY . .
 
 RUN yarn build
-EXPOSE 8080
-ENTRYPOINT [ "serve", "-s", "build", "-p", "8080" ]
+EXPOSE 3000
+ENTRYPOINT [ "serve", "-s", "build", "-p", "3000" ]
